@@ -1,0 +1,10 @@
+ini adalah file eksternal.
+dan ini adalah baris kedua.
+
+data
+No  Nama
+1   Ibra
+2   Mukhlis
+3   Ucup
+4   Mario
+5   Sandra
