@@ -12,7 +12,7 @@ struct Mahasiswa {
     string pk, NIM, nama, jurusan;
 };
 
-int getOption();
+string getOption();
 void checkDatabase();
 void writeData(Mahasiswa &inputMahasiswa);
 vector<Mahasiswa> readData();
@@ -22,38 +22,35 @@ void displayDataMahasiswa();
 int main(){
     checkDatabase();
 
-    int pilihan = getOption();
-    char isContinue;
+    string pilihan, isContinue;
     enum option {CREATE = 1, READ, UPDATE, DELETE, FINISH};
 
-    while(pilihan != FINISH){
-        switch(pilihan){
-            case CREATE:
-                cout << "\nMenambah data mahasiswa" << "\n";
-                cout << "Max 20 character untuk nama" << "\n";
-                cout << "Max 9 character untuk NIM" << "\n";
-                addDataMahasiswa();
-                break;
-            case READ:
-                cout << "\nTampilkan data mahasiswa" << "\n";
-                displayDataMahasiswa();
-                break;
-            case UPDATE:
-                cout << "\nUbah data mahasiswa" << "\n";
-                break;
-            case DELETE:
-                cout << "\nHapus data mahasiswa" << "\n";
-                break;
-            default:
-                cout << "\nPilihan tidak sesuai!" << "\n";
+    labelContinue2:
+    pilihan = getOption();
+    while(pilihan != "0"){
+        if(pilihan == "1"){
+            cout << "\nMenambah data mahasiswa" << "\n";
+            cout << "Max 20 character untuk nama" << "\n";
+            cout << "Max 9 character untuk NIM" << "\n";
+            addDataMahasiswa();
+        }else if(pilihan == "2"){
+            cout << "\nTampilkan data mahasiswa" << "\n";
+            displayDataMahasiswa();
+        }else if(pilihan == "3"){
+            cout << "\nUbah data mahasiswa" << "\n";
+        }else if(pilihan == "4"){
+            cout << "\nHapus data mahasiswa" << "\n";
+        }else{
+            cout << "\nPilihan tidak sesuai!" << "\n";
+            goto labelContinue2;
         }
 
         labelContinue:
         cout << "\nLanjutkan?(y/n) : ";
-        cin >> isContinue;
-        if(isContinue == 'y'){
+        getline(cin, isContinue);
+        if(isContinue == "y"){
             pilihan = getOption();
-        }else if(isContinue == 'n'){
+        }else if(isContinue == "n"){
             break;
         }else{
             goto labelContinue;
@@ -65,8 +62,8 @@ int main(){
     return 0;
 }
 
-int getOption(){
-    int input;
+string getOption(){
+    string input;
     
     system("CLS");
     cout << "Program CRUD Data Mahasiswa" << "\n";
@@ -75,11 +72,10 @@ int getOption(){
     cout << "2. Tampilkan data mahasiswa" << "\n";
     cout << "3. Ubah data mahasiswa" << "\n";
     cout << "4. Hapus data mahasiswa" << "\n";
-    cout << "5. Selesai" << "\n";
+    cout << "0. Selesai" << "\n";
     cout << "===========================" << "\n";
-    cout << "Pilih [1-5]? : ";
-    cin >> input;
-    cin.ignore(10, '\n');
+    cout << "Pilih : ";
+    getline(cin, input);
 
     return input;
 }
@@ -135,10 +131,28 @@ void addDataMahasiswa(){
 
         cout << "Nama : ";
         getline(cin, inputMahasiswa.nama);
+        jumlahInputan = inputMahasiswa.nama.size();
+        if(jumlahInputan < maxNama){
+            for(int i = 0; i < (maxNama - jumlahInputan); i++){
+                inputMahasiswa.nama += " ";
+            }
+        }else if(jumlahInputan > maxNama){
+            inputMahasiswa.nama = inputMahasiswa.nama.substr(0, 20);
+        }
+
         cout << "Jurusan : ";
         getline(cin, inputMahasiswa.jurusan);
+
         cout << "NIM : ";
         getline(cin, inputMahasiswa.NIM);
+        jumlahInputan = inputMahasiswa.NIM.size();
+        if(jumlahInputan < maxNIM){
+            for(int i = 0; i < (maxNIM - jumlahInputan); i++){
+                inputMahasiswa.NIM += " ";
+            }
+        }else if(jumlahInputan > maxNIM){
+            inputMahasiswa.NIM = inputMahasiswa.NIM.substr(0, 9);
+        }
 
         writeData(inputMahasiswa);
     }else{
