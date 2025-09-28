@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <chrono> // Untuk waktu delay
+#include <thread> // Untuk delay
 #define maxNama 20
 #define maxNIM 9
 
@@ -41,7 +43,8 @@ int main(){
         }else if(pilihan == "4"){
             cout << "\nHapus data mahasiswa" << "\n";
         }else{
-            cout << "\nPilihan tidak sesuai!" << "\n";
+            cout << "\nPilihan tidak sesuai!";
+            this_thread::sleep_for(chrono::milliseconds(1500));
             goto labelContinue2;
         }
 
